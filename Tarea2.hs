@@ -50,10 +50,13 @@ costoAsignacion ( (v,peso):xs ) vt
     | otherwise = costoAsignacion xs vt;
 
 -- Ejercicio 5
-
-
+--que dado un grafo g y un
+--vertice v, retorna el par ordenado que contiene a v y la lista de v´ertices adyacentes a v con sus respectivos pesos.
 verticeConAdyacentes :: GrafoP -> Vertice -> (Vertice,[VerticeConPeso])
-verticeConAdyacentes gs v = undefined
+verticeConAdyacentes [] v = error "Empty graph"
+verticeConAdyacentes ( ( v,l ):xs ) vertice 
+    | v == vertice =  ( v,l ) 
+    | otherwise = verticeConAdyacentes xs vertice;
 
 -- Ejercicio 6
 -- Sugerencia: Se pueden definir funciones auxiliares para facilitar la tarea
