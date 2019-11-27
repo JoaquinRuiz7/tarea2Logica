@@ -23,10 +23,9 @@ ejemplo2 = [(1, [(2,3), (4,5), (3,1), (5,0)]), (2, [(4,1), (3,1), (1,1)]), (3, [
 
 -- Ejercicio 1 
 -- grafo = [(Vertice,[VerticeConPeso])]
-vertices :: GrafoP -> [Vertice]
+vertices::GrafoP->[Vertice]
 vertices [] = []
-vertices ((v,l):[]) = v:[]
-vetices ((v,l):xs) = v:(vertices xs);
+vertices ( (vertice,l):ys ) = vertice:vertices ys;
 
 -- Ejercicio 2
 crearListaEtiquetasSinPeso :: [Vertice] -> Etiquetas
