@@ -35,7 +35,10 @@ crearListaEtiquetasSinPeso (x:xs) = (x,0):crearListaEtiquetasSinPeso xs;
 
 -- Ejercicio 3
 actualizarPeso :: Etiquetas -> Vertice -> Peso -> Etiquetas
-actualizarPeso = undefined
+actualizarPeso [] v p = []
+actualizarPeso ((v,peso):xs) vertice p 
+    | v == vertice && peso > p = (v,p):actualizarPeso xs vertice p -- si encontre agrego la etiqueta nueva
+    | otherwise = (v,peso):actualizarPeso xs vertice p  -- si no encontre agregotodos al retorno de la funcion hasta que encuentre.
 
 -- Ejercicio 4
 costoAsignacion :: Etiquetas -> Vertice -> Int
