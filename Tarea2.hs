@@ -41,10 +41,17 @@ actualizarPeso ((v,peso):xs) vertice p
     | otherwise = (v,peso):actualizarPeso xs vertice p  -- si no encontre agregotodos al retorno de la funcion hasta que encuentre.
 
 -- Ejercicio 4
+--que dada la lista de etiquetas y un vertice, retorna el costo
+--guardado en la lista para dicho vertice.
 costoAsignacion :: Etiquetas -> Vertice -> Int
-costoAsignacion es v = undefined
+costoAsignacion [] v  = error "Empty list item not found" -- si no encuentra el vertice da error
+costoAsignacion ( (v,peso):xs ) vt 
+    | v == vt = peso
+    | otherwise = costoAsignacion xs vt;
 
 -- Ejercicio 5
+
+
 verticeConAdyacentes :: GrafoP -> Vertice -> (Vertice,[VerticeConPeso])
 verticeConAdyacentes gs v = undefined
 
