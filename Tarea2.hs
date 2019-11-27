@@ -73,7 +73,10 @@ pesoDeUnVertice ( (v,p):xs ) vertice
 
 -- Ejercicio 8
 perteneceVertice :: [VerticeConPeso] -> Vertice -> Bool
-perteneceVertice = undefined
+perteneceVertice [] v  = False
+perteneceVertice ( ( v,p ):xs ) vertice
+    | v == vertice = True
+    | otherwise = perteneceVertice xs vertice;
 
 -- Ejercicio 9
 verticeMenorCostoNoVisitado :: Etiquetas -> Visitados -> Vertice
