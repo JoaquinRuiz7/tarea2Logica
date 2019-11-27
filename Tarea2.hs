@@ -44,7 +44,7 @@ actualizarPeso ((v,peso):xs) vertice p
 --que dada la lista de etiquetas y un vertice, retorna el costo
 --guardado en la lista para dicho vertice.
 costoAsignacion :: Etiquetas -> Vertice -> Int
-costoAsignacion [] v  = error "Empty list item not found" -- si no encuentra el vertice da error
+costoAsignacion [] v  = 0 -- si no encuentra el vertice da error
 costoAsignacion ( (v,peso):xs ) vt 
     | v == vt = peso
     | otherwise = costoAsignacion xs vt;
@@ -53,7 +53,7 @@ costoAsignacion ( (v,peso):xs ) vt
 --que dado un grafo g y un
 --vertice v, retorna el par ordenado que contiene a v y la lista de v´ertices adyacentes a v con sus respectivos pesos.
 verticeConAdyacentes :: GrafoP -> Vertice -> (Vertice,[VerticeConPeso])
-verticeConAdyacentes [] v = error "Empty graph"
+verticeConAdyacentes [] v = error "Empty graph or item not in graph"
 verticeConAdyacentes ( ( v,l ):xs ) vertice 
     | v == vertice =  ( v,l ) 
     | otherwise = verticeConAdyacentes xs vertice;
@@ -65,7 +65,11 @@ actualizarAsignacion = undefined
 
 -- Ejercicio 7
 pesoDeUnVertice :: [VerticeConPeso] -> Vertice -> Int
-pesoDeUnVertice vps v = undefined
+pesoDeUnVertice [] v = 0
+pesoDeUnVertice ( (v,p):xs ) vertice
+    | v == vertice = p 
+    | otherwise = pesoDeUnVertice xs vertice;
+
 
 -- Ejercicio 8
 perteneceVertice :: [VerticeConPeso] -> Vertice -> Bool
