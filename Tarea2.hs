@@ -28,8 +28,10 @@ vertices [] = []
 vertices ( (vertice,l):ys ) = vertice:vertices ys;
 
 -- Ejercicio 2
+-- Falta ver como poner infinito
 crearListaEtiquetasSinPeso :: [Vertice] -> Etiquetas
-crearListaEtiquetasSinPeso  = undefined
+crearListaEtiquetasSinPeso  [] = []
+crearListaEtiquetasSinPeso (x:xs) = (x,0):crearListaEtiquetasSinPeso xs; 
 
 -- Ejercicio 3
 actualizarPeso :: Etiquetas -> Vertice -> Peso -> Etiquetas
