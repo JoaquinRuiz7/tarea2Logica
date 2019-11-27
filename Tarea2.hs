@@ -11,6 +11,10 @@ type Visitados = [Vertice]
 
 inf = maxBound::Int
 
+etiquetas::Etiquetas
+etiquetas = [(1,3),(2,4),(3,5),(4,11)]
+visitdados::Visitados
+visitdados = [2,3]
 -- Ejemplo de la letra
 ejemplo1 :: GrafoP
 ejemplo1 = [(1, [(2,2), (3,1)]), (2, [(4,1)]), (3, [(4,3), (5,4)]), (4, [(6,2)]), (5, [(6,2)]), (6, [])]
@@ -78,9 +82,33 @@ perteneceVertice ( ( v,p ):xs ) vertice
     | v == vertice = True
     | otherwise = perteneceVertice xs vertice;
 
+
+noVisitados::Etiquetas->Visitados->Etiquetas
+noVisitados [] [] = []
+noVisitados l [] = l 
+noVisitados [] l = []
+noVisitados ((v,p):xs) l 
+    | elem v l = noVisitados xs l 
+    | not ( elem v l ) = (v,p):noVisitados xs l; 
+
+minimoCosto::Etiquetas->Vertice
+minimoCosto [] = error "Empty list"
+minimoCosto [(v,p)] = p
+minimoCosto ( (v,p):xs )
+    | p < minimoCosto xs = p
+    | otherwise = minimoCosto xs;
+
+verticeMinimoCosto::Etiquetas->Int->Vertice
+verticeMinimoCosto [] min = error "Empty list"
+verticeMinimoCosto ( (v,p):xs ) min 
+    | p == min = v
+    | otherwise = verticeMinimoCosto xs min;
 -- Ejercicio 9
+--que dada la lista de etiquetas retorna
+--el vertice de menor costo que no haya sido visitado.
+
 verticeMenorCostoNoVisitado :: Etiquetas -> Visitados -> Vertice
-verticeMenorCostoNoVisitado = undefined
+verticeMenorCostoNoVisitado  e v = verticeMinimoCosto e ( minimoCosto (noVisitados e v ))
 
 -- ************************************************** FIN TAREA **************************************************
 
