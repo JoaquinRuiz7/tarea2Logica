@@ -1,4 +1,4 @@
-module Tarea2 where
+module Dijkstra where
 
 type Vertice = Int
 type Peso = Int
