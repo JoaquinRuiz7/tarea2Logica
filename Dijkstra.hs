@@ -42,13 +42,13 @@ actualizarPeso :: Etiquetas -> Vertice -> Peso -> Etiquetas
 actualizarPeso [] v p = []
 actualizarPeso ((v,peso):xs) vertice p 
     | v == vertice && peso > p = (v,p):actualizarPeso xs vertice p -- si encontre agrego la etiqueta nueva
-    | otherwise = (v,peso):actualizarPeso xs vertice p  -- si no encontre agregotodos al retorno de la funcion hasta que encuentre.
+    | otherwise = (v,peso):actualizarPeso xs vertice p  -- si no encontre agrego todos al retorno de la funcion hasta que encuentre.
 
 -- Ejercicio 4
 --que dada la lista de etiquetas y un vertice, retorna el costo
 --guardado en la lista para dicho vertice.
 costoAsignacion :: Etiquetas -> Vertice -> Int
-costoAsignacion [] v  = 0 -- si no encuentra el vertice da error
+costoAsignacion [] v  = 0
 costoAsignacion ( (v,peso):xs ) vt 
     | v == vt = peso
     | otherwise = costoAsignacion xs vt;
