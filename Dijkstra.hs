@@ -1,4 +1,6 @@
 module Dijkstra where
+-- Estudiante : Joaquin Ruiz
+-- Nro : 206164
 
 type Vertice = Int
 type Peso = Int
@@ -32,7 +34,6 @@ vertices [] = []
 vertices ( (vertice,l):ys ) = vertice:vertices ys;
 
 -- Ejercicio 2
--- Falta ver como poner infinito
 crearListaEtiquetasSinPeso :: [Vertice] -> Etiquetas
 crearListaEtiquetasSinPeso  [] = []
 crearListaEtiquetasSinPeso (x:xs) = (x,inf):crearListaEtiquetasSinPeso xs; 
@@ -41,8 +42,8 @@ crearListaEtiquetasSinPeso (x:xs) = (x,inf):crearListaEtiquetasSinPeso xs;
 actualizarPeso :: Etiquetas -> Vertice -> Peso -> Etiquetas
 actualizarPeso [] v p = []
 actualizarPeso ((v,peso):xs) vertice p 
-    | v == vertice && peso > p = (v,p):actualizarPeso xs vertice p -- si encontre agrego la etiqueta nueva
-    | otherwise = (v,peso):actualizarPeso xs vertice p  -- si no encontre agrego todos al retorno de la funcion hasta que encuentre.
+    | v == vertice && peso > p = (v,p):actualizarPeso xs vertice p 
+    | otherwise = (v,peso):actualizarPeso xs vertice p  
 
 -- Ejercicio 4
 --que dada la lista de etiquetas y un vertice, retorna el costo
@@ -55,17 +56,30 @@ costoAsignacion ( (v,peso):xs ) vt
 
 -- Ejercicio 5
 --que dado un grafo g y un
---vertice v, retorna el par ordenado que contiene a v y la lista de v´ertices adyacentes a v con sus respectivos pesos.
+--vertice v, retorna el par ordenado que contiene a v y la lista de vertices adyacentes a v con sus respectivos pesos.
 verticeConAdyacentes :: GrafoP -> Vertice -> (Vertice,[VerticeConPeso])
-verticeConAdyacentes [] v = error "Empty graph or item not in graph"
+verticeConAdyacentes [] v = (v,[])
 verticeConAdyacentes ( ( v,l ):xs ) vertice 
     | v == vertice =  ( v,l ) 
     | otherwise = verticeConAdyacentes xs vertice;
 
+actualizarAsignacionAux::(Vertice,[VerticeConPeso])-> Etiquetas ->Etiquetas -> Etiquetas
+actualizarAsignacionAux (v,l) [] [] = l 
+actualizarAsignacionAux (v,[]) e e2 = e2;
+actualizarAsignacionAux (v,(v1,p):xs) e ( (v2,p2):ys )
+    | ( (costoAsignacion e v) + p ) < p2 = (v1,( costoAsignacion e v )+p ):actualizarAsignacionAux (v,xs) e ys
+    | otherwise = (v1,p):actualizarAsignacionAux (v,xs) e ys;
 -- Ejercicio 6
 -- Sugerencia: Se pueden definir funciones auxiliares para facilitar la tarea
 actualizarAsignacion :: (Vertice, [VerticeConPeso]) ->  Etiquetas -> Etiquetas
-actualizarAsignacion = undefined
+actualizarAsignacion p e = actualizarAsignacionAux p e e;
+{-- 
+actualizarAsignacion (v, l) [] = l
+actualizarAsignacion (v,[]) e = e  
+actualizarAsignacion (v,( (v1,p):xs ) )  ( (v2,p2):ys )
+    |   ( (costoAsignacion ( (v2,p2):ys ) v ) + p ) < p2 = (v1, (costoAsignacion ( (v2,p2):ys ) v) + p):actualizarAsignacion (v,xs) ( (v2,p2):ys ) 
+    |   otherwise =  (v1,p):actualizarAsignacion (v,xs) ( (v2,p2):ys );
+--}
 
 -- Ejercicio 7
 pesoDeUnVertice :: [VerticeConPeso] -> Vertice -> Int
@@ -84,22 +98,20 @@ perteneceVertice ( ( v,p ):xs ) vertice
 
 
 noVisitados::Etiquetas->Visitados->Etiquetas
-noVisitados [] [] = []
+noVisitados [] _ = []
 noVisitados l [] = l 
-noVisitados [] l = []
 noVisitados ((v,p):xs) l 
     | elem v l = noVisitados xs l 
     | not ( elem v l ) = (v,p):noVisitados xs l; 
 
 minimoCosto::Etiquetas->Vertice
-minimoCosto [] = error "Empty list"
 minimoCosto [(v,p)] = p
 minimoCosto ( (v,p):xs )
     | p < minimoCosto xs = p
     | otherwise = minimoCosto xs;
 
 verticeMinimoCosto::Etiquetas->Int->Vertice
-verticeMinimoCosto [] min = error "Empty list"
+verticeMinimoCosto [] min = error "No hay etiquetas";
 verticeMinimoCosto ( (v,p):xs ) min 
     | p == min = v
     | otherwise = verticeMinimoCosto xs min;
